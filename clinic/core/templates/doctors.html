@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Список врачей</h2>
+    <a href="{% url 'add_doctor' %}" class="btn">Добавить врача</a>
+    <table>
+        <thead>
+            <tr>
+                <th>ФИО</th>
+                <th>Специальность</th>
+                <th>Категория</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for doctor in doctors %}
+            <tr>
+                <td>{{ doctor.last_name }} {{ doctor.first_name }} {{ doctor.middle_name }}</td>
+                <td>{{ doctor.specialty }}</td>
+                <td>{{ doctor.get_category_display }}</td>
+                <td>
+                    <a href="{% url 'doctor_detail' doctor.id %}">Подробнее</a>
+                    <a href="{% url 'edit_doctor' doctor.id %}" class="btn-edit">✏️</a>
+                    <a href="{% url 'delete_doctor' doctor.id %}" class="btn-danger">❌</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

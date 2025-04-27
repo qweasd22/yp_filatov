@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Детали обращения</h2>
+    <div class="detail-card">
+        <div class="row">
+            <div class="col">
+                <p><strong>Дата:</strong> {{ visit.date }}</p>
+                <p><strong>Пациент:</strong> {{ visit.patient.full_name }}</p>
+                <p><strong>Категория скидки:</strong> 
+                    {{ visit.patient.get_discount_category_display }}
+                </p>
+            </div>
+            <div class="col">
+                <p><strong>Врач:</strong> {{ visit.doctor }}</p>
+                <p><strong>Базовая стоимость:</strong> {{ visit.base_cost }} руб.</p>
+                <p><strong>Примененная скидка:</strong> {{ visit.discount }}%</p>
+                <p><strong>Итоговая сумма:</strong> {{ visit.final_cost|floatformat:2 }} руб.</p>
+            </div>
+        </div>
+        
+        <h3>Диагноз:</h3>
+        <div class="diagnosis">{{ visit.diagnosis }}</div>
+        
+        <a href="{% url 'visits' %}" class="btn">Назад к списку</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>{% if form.instance.id %}Редактировать{% else %}Добавить{% endif %} пациента</h2>
+    <form method="post" class="form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">Сохранить</button>
+        <a href="{% url 'patients' %}" class="btn cancel">Отмена</a>
+    </form>
+{% endblock %}

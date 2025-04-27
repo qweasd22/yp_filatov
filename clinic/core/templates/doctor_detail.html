@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Профиль врача</h2>
+    <div class="detail-card">
+        <p><strong>ФИО:</strong> {{ doctor.last_name }} {{ doctor.first_name }} {{ doctor.middle_name }}</p>
+        <p><strong>Специальность:</strong> {{ doctor.specialty }}</p>
+        <p><strong>Категория:</strong> {{ doctor.get_category_display }}</p>
+        <h3>Последние обращения:</h3>
+        <ul>
+            {% for visit in doctor.visit_set.all|slice:":5" %}
+            <li>{{ visit.date }} - {{ visit.patient }} ({{ visit.diagnosis|truncatechars:30 }})</li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'doctors' %}" class="btn">Назад к списку</a>
+    </div>
+{% endblock %}

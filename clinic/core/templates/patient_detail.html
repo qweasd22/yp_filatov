@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Карта пациента</h2>
+    <div class="detail-card">
+        <p><strong>ФИО:</strong> {{ patient.full_name }}</p>
+        <p><strong>Год рождения:</strong> {{ patient.birth_year }}</p>
+        <p><strong>Категория скидки:</strong> 
+            <span class="discount-badge {{ patient.discount_category }}">
+                {{ patient.get_discount_category_display }}
+            </span>
+        </p>
+        
+        <h3>История обращений:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Дата</th>
+                    <th>Врач</th>
+                    <th>Диагноз</th>
+                    <th>Базовая стоимость</th>
+                    <th>Скидка</th>
+                    <th>Итоговая сумма</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for visit in patient.visit_set.all %}
+                <tr>
+                    <td>{{ visit.date }}</td>
+                    <td>{{ visit.doctor }}</td>
+                    <td>{{ visit.diagnosis }}</td>
+                    <td>{{ visit.base_cost }} руб.</td>
+                    <td>{{ visit.discount }}%</td>
+                    <td>{{ visit.final_cost|floatformat:2 }} руб.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{% url 'patients' %}" class="btn">Назад к списку</a>
+    </div>
+{% endblock %}

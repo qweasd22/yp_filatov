@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Платная поликлиника</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Платная поликлиника</h1>
+        <nav>
+            <a href="/doctors">Врачи</a>
+            <a href="/patients">Пациенты</a>
+            <a href="/visits">Обращения</a>
+        </nav>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

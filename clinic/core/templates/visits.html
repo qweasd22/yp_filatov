@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>История обращений</h2>
+    <a href="{% url 'add_visit' %}" class="btn">Добавить обращение</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Дата</th>
+                <th>Пациент</th>
+                <th>Категория скидки</th>
+                <th>Врач</th>
+                <th>Диагноз</th>
+                <th>Итоговая сумма</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for visit in visits %}
+            <tr>
+                <td>{{ visit.date }}</td>
+                <td>{{ visit.patient.full_name }}</td>
+                <td>{{ visit.patient.get_discount_category_display }}</td>
+                <td>{{ visit.doctor }}</td>
+                <td>{{ visit.diagnosis|truncatechars:30 }}</td>
+                <td>{{ visit.final_cost|floatformat:2 }} руб.</td>
+                <td>
+                    <a href="{% url 'visit_detail' visit.id %}">Подробнее</a>
+                    <a href="{% url 'edit_visit' visit.id %}" class="btn-edit">✏️</a>
+                    <a href="{% url 'delete_visit' visit.id %}" class="btn-danger">❌</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
