@@ -27,4 +27,13 @@ urlpatterns = [
     path('visit/<int:pk>/edit/', edit_visit, name='edit_visit'),
     path('',index, name='index'),
     path('api/patient-discount/<int:pk>/', patient_discount_api, name='patient_discount_api'),
+    path('signup/', patient_signup, name='patient_signup'),
+    path('doctors/', doctor_list, name='doctor_list'),
+    path('appointment/<int:doctor_id>/', create_appointment, name='create_appointment'),
+    path('', index, name='index'),
+    path('', index, name='index'),
+    path('admin/dashboard/', admin_dashboard, name='admin_dashboard'),
+    path('doctors/', doctor_list, name='doctor_list'),
+    # path('my-visits/', my_visits, name='my_visits'),
+    
 ]

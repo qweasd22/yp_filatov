@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="doctor-list">
+    <h1>Выберите врача</h1>
+    <div class="filters">
+        <input type="text" placeholder="Поиск по специальности..." id="searchInput">
+    </div>
+    
+    <div class="cards-container">
+        {% for doctor in doctors %}
+        <div class="doctor-card">
+            <div class="card-header">
+                <h3>{{ doctor.specialty }}</h3>
+                <span class="category">{{ doctor.get_category_display }}</span>
+            </div>
+            <div class="card-body">
+                <h4>{{ doctor.last_name }} {{ doctor.first_name }}</h4>
+                <a href="{% url 'create_appointment' doctor.id %}" class="btn">
+                    Записаться на прием
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+document.getElementById('searchInput').addEventListener('input', function(e) {
+    const searchValue = e.target.value.toLowerCase();
+    document.querySelectorAll('.doctor-card').forEach(card => {
+        const specialty = card.querySelector('h3').textContent.toLowerCase();
+        card.style.display = specialty.includes(searchValue) ? 'block' : 'none';
+    });
+});
+</script>
+{% endblock %}

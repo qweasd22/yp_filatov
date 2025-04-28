@@ -9,7 +9,8 @@
                 <th>ФИО</th>
                 <th>Специальность</th>
                 <th>Категория</th>
-                <th>Действия</th>
+                <th>Стаж</th>
+                <th>Действие</th>
             </tr>
         </thead>
         <tbody>
@@ -18,6 +19,8 @@
                 <td>{{ doctor.last_name }} {{ doctor.first_name }} {{ doctor.middle_name }}</td>
                 <td>{{ doctor.specialty }}</td>
                 <td>{{ doctor.get_category_display }}</td>
+                
+                <td>{{doctor.experience}}</td>
                 <td>
                     <a href="{% url 'doctor_detail' doctor.id %}">Подробнее</a>
                     <a href="{% url 'edit_doctor' doctor.id %}" class="btn-edit">✏️</a>

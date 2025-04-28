@@ -6,6 +6,7 @@
         <p><strong>ФИО:</strong> {{ doctor.last_name }} {{ doctor.first_name }} {{ doctor.middle_name }}</p>
         <p><strong>Специальность:</strong> {{ doctor.specialty }}</p>
         <p><strong>Категория:</strong> {{ doctor.get_category_display }}</p>
+        <p><strong>Стаж:</strong> {{ doctor.experience }} лет</p>
         <h3>Последние обращения:</h3>
         <ul>
             {% for visit in doctor.visit_set.all|slice:":5" %}

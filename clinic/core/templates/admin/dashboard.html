@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="admin-panel">
+    <div class="max-w-7xl mx-auto">
+        <h2 class="text-3xl font-bold mb-8">Панель управления</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="user-menu p-6">
+                <h3 class="text-xl font-semibold mb-4">Быстрые действия</h3>
+                <ul class="space-y-2">
+                    <li><a href="{% url 'admin:core_doctor_add' %}" class="text-primary-color hover:underline">Добавить врача</a></li>
+                    <li><a href="{% url 'admin:core_patient_changelist' %}" class="text-primary-color hover:underline">Управление пациентами</a></li>
+                    <li><a href="{% url 'admin:core_visit_changelist' %}" class="text-primary-color hover:underline">Просмотр записей</a></li>
+                </ul>
+            </div>
+            
+            <div class="col-span-2">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-semibold mb-4">Статистика</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-4 bg-blue-50 rounded">
+                            <p class="text-gray-600">Всего пациентов</p>
+                            <p class="text-2xl font-bold">{{ patients_count }}</p>
+                        </div>
+                        <div class="p-4 bg-green-50 rounded">
+                            <p class="text-gray-600">Записей сегодня</p>
+                            <p class="text-2xl font-bold">{{ today_visits }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

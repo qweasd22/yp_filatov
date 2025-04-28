@@ -1,6 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Doctor, Patient, Visit
-from .forms import DoctorForm, PatientForm, VisitForm
+from .forms import DoctorForm, PatientForm, VisitForm, PatientSignUpForm
 from django.views.generic import DeleteView
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect, get_object_or_404
@@ -8,6 +8,10 @@ from django.http import JsonResponse
 from rest_framework import viewsets, permissions
 from .models import Doctor, Patient, Visit
 from .serializers import DoctorSerializer, PatientSerializer, VisitSerializer
+from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth import login
 
 def doctors_list(request):
     doctors = Doctor.objects.all()
@@ -116,3 +120,50 @@ def edit_patient(request, pk):
 
 def edit_visit(request, pk):
     return visit_form(request, pk)
+
+
+#Register
+def patient_signup(request):
+    if request.method == 'POST':
+        form = PatientSignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('doctor_list') 
+    else:
+        form = PatientSignUpForm()
+    return render(request, 'registration/signup.html', {'form': form})
+
+@login_required
+def doctor_list(request):
+    # Только для пациентов
+    if request.user.is_staff:
+        return redirect('admin_dashboard')
+    return render(request, 'core/doctor_list.html')
+
+@user_passes_test(lambda u: u.is_staff)
+def admin_dashboard(request):
+    # Панель администратора
+    return render(request, 'admin/dashboard.html')
+
+@login_required
+def create_appointment(request, doctor_id):
+    doctor = get_object_or_404(Doctor, id=doctor_id)
+    
+    if request.method == 'POST':
+        # Логика создания записи
+        Visit.objects.create(
+            doctor=doctor,
+            patient=request.user.patientprofile,
+            date=request.POST.get('date'),
+            diagnosis='Первичная консультация',
+            cost=doctor.consultation_price
+        )
+        return redirect('my_appointments')
+    
+    return render(request, 'core/appointment_form.html', {'doctor': doctor})
+
+def index(request):
+    featured_doctors = Doctor.objects.all()[:4]  # Первые 4 врача
+    return render(request, 'index.html', {'featured_doctors': featured_doctors})
+
