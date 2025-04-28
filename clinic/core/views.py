@@ -5,6 +5,9 @@ from django.views.generic import DeleteView
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
+from rest_framework import viewsets, permissions
+from .models import Doctor, Patient, Visit
+from .serializers import DoctorSerializer, PatientSerializer, VisitSerializer
 
 def doctors_list(request):
     doctors = Doctor.objects.all()
